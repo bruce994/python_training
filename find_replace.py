@@ -34,6 +34,10 @@ for parent,dirnames, filenames in os.walk(dir):
 				#utf-8
 				find_str1 = find_str.encode('utf-8')
 				replace_str1 = replace_str.encode('utf-8')
+				
+		        find_str1 =  "||||".join(x.strip() for x in find_str1.splitlines())   # 过渡换行\n 行尾有空格
+                        replace_str1 = "||||".join(x.strip() for x in replace_str1.splitlines())
+                        content = "||||".join(x.strip() for x in content.splitlines())
 
 			if content.find(find_str1) > -1 :
 				i+=1
@@ -53,6 +57,7 @@ for parent,dirnames, filenames in os.walk(dir):
 					shutil.copy(filename_path, src)		
 			
 				content = content.replace(find_str1,replace_str1)
+				content = content.replace("||||","\n")
 				file_write = open(filename_path, 'w')
 				file_write.write(content)
 				file_write.close
