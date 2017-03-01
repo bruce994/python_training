@@ -41,4 +41,4 @@ for f in log:
 
 
 endtime = datetime.datetime.now()
-print str((endtime - starttime).seconds) + ' sencond' #执行时间
+print str((endtime - starttime).seconds) + ' sencond' #执行时间 
