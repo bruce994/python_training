@@ -17,7 +17,19 @@ hour = starttime.strftime("%H")
 current_date =  day + "/" + month + "/" + year + ":" + hour
 #current_date =  day + "/" + month + "/" + year
 
-os.system("ipset flush blacklist")  #清空blacklist 集合
+blacklist_date = "/home/Tool/blacklist_date.txt"
+if os.path.isfile(blacklist_date):
+    f = open(blacklist_date, 'r')
+    date1 = f.read()
+    if date1 != current_date :
+        os.system("ipset flush blacklist")  #清空blacklist 集合
+        f = open(blacklist_date, 'w')
+        f.write(current_date)
+        f.close()
+else:
+    f = open(blacklist_date, 'w')
+    f.write(current_date)
+    f.close()
 
 ipNum = "800"
 log = ['/home/log/ttp.wf0933.cn-','/home/log/vote.lanrenmb.com-']
