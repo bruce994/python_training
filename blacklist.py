@@ -49,4 +49,4 @@ os.system("cat /etc/ddos/ignore.ip.list | awk '{print \"ipset del blacklist\",$0
 
 
 endtime = datetime.datetime.now()
-print str((endtime - starttime).seconds) + ' sencond' #执行时间    
+print str((endtime - starttime).seconds) + ' sencond' #执行时间     
