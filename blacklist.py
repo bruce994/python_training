@@ -14,8 +14,11 @@ year = starttime.strftime("%Y")
 month = starttime.strftime("%B")[:3]
 day = starttime.strftime("%d")
 hour = starttime.strftime("%H")
-current_date =  day + "/" + month + "/" + year + ":" + hour
-#current_date =  day + "/" + month + "/" + year
+#current_date =  day + "/" + month + "/" + year + ":" + hour
+current_date =  day + "/" + month + "/" + year
+
+os.system("ipset create blacklist hash:ip hashsize 4096 maxelem 1000000")  #创建集合，由于ipse存在于内存中,重启服务器失效，所以需要创建
+
 
 blacklist_date = "/home/Tool/blacklist_date.txt"
 if os.path.isfile(blacklist_date):
@@ -31,8 +34,9 @@ else:
     f.write(current_date)
     f.close()
 
-ipNum = "800"
-log = ['/home/log/ttp.wf0933.cn-','/home/log/vote.lanrenmb.com-']
+
+ipNum = "1000"
+log = ['/home/log/20170210.zz.lanrenmb.cn-','/home/log/20160607.zz.lanrenmb.com-','/home/log/vote.txzcbee.cn-','/home/log/wxsy.zz.lanrenmb.cn-','/home/log/vote.lanrenmb.com-']
 
 for f in log:
     ssh_1 = "cat "+f+starttime.strftime("%Y-%m-%d")+".access.log |grep '"+current_date+"' |cut -d ' ' -f 1 |sort |uniq -c | awk '{if ($1 > "+ipNum+") print $2}'|sort -nr |less | awk '{print \"ipset add blacklist\",$0}'|sh"
@@ -40,5 +44,9 @@ for f in log:
     os.system(ssh_1)
 
 
+#移除指定IP
+os.system("cat /etc/ddos/ignore.ip.list | awk '{print \"ipset del blacklist\",$0}'|sh")
+
+
 endtime = datetime.datetime.now()
-print str((endtime - starttime).seconds) + ' sencond' #执行时间 
+print str((endtime - starttime).seconds) + ' sencond' #执行时间    
